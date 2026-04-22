@@ -5,6 +5,7 @@ def initialise():
     for i in range(3):
         for j in range(3):
             BUTTONS[i][j].config(text="")
+            BUTTONS[i][j].config(state="normal")
 
 def determine_turn():
     grid = give_grid().replace("e","")
@@ -12,15 +13,14 @@ def determine_turn():
 
 def handle_click(row,column):
     square = BUTTONS[row][column]
-
-    if not valid_click(square) or game_is_finished():
-        return
     
     turn = determine_turn()
     if turn == 0:
         square.config(text="X")
+        square.config(state="disabled")
     if turn == 1:
         square.config(text="O")
+        square.config(state="disabled")
 
     if game_is_won():
         print("Well done, player "+winner()+" wins!")
@@ -29,16 +29,12 @@ def handle_click(row,column):
         print("The game is a draw.")
 
     if game_is_finished():
+        disable_all_buttons()
         decision = input("Would you like to play again? (y/n)").lower()
         if decision == "y":
             initialise()
         else:
             root.destroy()
-
-def valid_click(square):
-    if len(square.cget("text")) == 0:
-        return True
-    return False
 
 def give_grid():
     totaltext = ''
@@ -96,6 +92,11 @@ def give_diagonals():
     diags.append(grid[0]+grid[4]+grid[8])
     diags.append(grid[6]+grid[4]+grid[2])
     return diags
+
+def disable_all_buttons():
+    for i in range(3):
+        for j in range(3):
+            BUTTONS[i][j].config(state = "disabled")
 
 
 #Grid 
