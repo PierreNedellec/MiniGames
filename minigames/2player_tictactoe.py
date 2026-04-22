@@ -6,6 +6,7 @@ def initialise():
         for j in range(3):
             BUTTONS[i][j].config(text="")
             BUTTONS[i][j].config(state="normal")
+    SHOWTURN.config(text="Player X's turn", font=("Arial",20))
 
 def determine_turn():
     grid = give_grid().replace("e","")
@@ -26,15 +27,16 @@ def handle_click(row,column):
     square.config(state = "disabled")
     show_turn_on_grid()
 
-    if game_is_won():
-        message = "Well done, player "+winner()+" wins!"
-
-    if game_is_draw():
-        message = "The game is a draw."
-
-    if game_is_finished():
+    won = game_is_won()
+    drawn = game_is_draw()
+    if won or drawn:
+        if won:
+            message = "Well done, player "+winner()+" wins!"
+        else:
+            message = "The game is a draw."
         disable_all_buttons()
-        playagain = messagebox.askyesno(message, "Play again?")
+        SHOWTURN.config(text= message, font=("Arial",20,"bold"))
+        playagain = messagebox.askyesno(None, "Play again?")
         if playagain:
             initialise()
         else:
@@ -67,9 +69,6 @@ def game_is_draw():
 
 def game_is_won():
     return check_all_win_cases()[0]
-
-def game_is_finished():
-    return game_is_draw() or game_is_won()
 
 def winner():
     return check_all_win_cases()[1]
