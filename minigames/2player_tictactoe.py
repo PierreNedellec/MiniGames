@@ -16,7 +16,6 @@ def determine_turn():
         return "O"
 
 def show_turn_on_grid():
-    print("called")
     SHOWTURN.config(text=f"Player {determine_turn()}'s turn")
 
 def handle_click(row,column):
