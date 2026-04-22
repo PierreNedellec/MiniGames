@@ -1,7 +1,7 @@
 import tkinter as tk
+from tkinter import messagebox
 
 def initialise():
-    print("-"*30)
     for i in range(3):
         for j in range(3):
             BUTTONS[i][j].config(text="")
@@ -23,15 +23,15 @@ def handle_click(row,column):
         square.config(state="disabled")
 
     if game_is_won():
-        print("Well done, player "+winner()+" wins!")
+        message = "Well done, player "+winner()+" wins!"
 
     if game_is_draw():
-        print("The game is a draw.")
+        message = "The game is a draw."
 
     if game_is_finished():
         disable_all_buttons()
-        decision = input("Would you like to play again? (y/n)").lower()
-        if decision == "y":
+        playagain = messagebox.askyesno(message, "Play again?")
+        if playagain:
             initialise()
         else:
             root.destroy()
