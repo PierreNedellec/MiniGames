@@ -47,8 +47,13 @@ def give_grid():
     return totaltext
 
 def check_all_win_cases():
-    cases = give_columns() + give_diagonals() + give_rows()
-    for case in cases:
+    grid = give_grid()
+    cases = []
+    squares = ["012","345","678","147","258","036","048","246"]
+    for s in squares:
+        case = ""
+        for index in s:
+            case += grid[int(index)]
         if is_win(case):
             return True, case[0]
     return False, None
@@ -71,27 +76,6 @@ def is_win(three):
     if three == "XXX" or three == "OOO":
         return True
     return False
-
-def give_rows():
-    grid = give_grid()
-    return [grid[0:3],grid[3:6],grid[6:9]]
-
-def give_columns():
-    grid = give_grid()
-    cols = []
-    for a in range(3):
-        column = ''
-        for b in range(3):
-            column += grid[3*b + a]
-        cols.append(column)
-    return cols
-
-def give_diagonals():
-    grid = give_grid()
-    diags = []
-    diags.append(grid[0]+grid[4]+grid[8])
-    diags.append(grid[6]+grid[4]+grid[2])
-    return diags
 
 def disable_all_buttons():
     for i in range(3):
