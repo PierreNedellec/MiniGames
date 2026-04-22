@@ -9,18 +9,22 @@ def initialise():
 
 def determine_turn():
     grid = give_grid().replace("e","")
-    return len(grid)%2
+    if len(grid)%2 == 0:
+        return "X"
+    if len(grid)%2 == 1:
+        return "O"
+
+def show_turn_on_grid():
+    print("called")
+    SHOWTURN.config(text=f"Player {determine_turn()}'s turn")
 
 def handle_click(row,column):
     square = BUTTONS[row][column]
     
     turn = determine_turn()
-    if turn == 0:
-        square.config(text="X")
-        square.config(state="disabled")
-    if turn == 1:
-        square.config(text="O")
-        square.config(state="disabled")
+    square.config(text=turn)
+    square.config(state = "disabled")
+    show_turn_on_grid()
 
     if game_is_won():
         message = "Well done, player "+winner()+" wins!"
@@ -81,18 +85,24 @@ def disable_all_buttons():
 #Grid 
 root = tk.Tk()
 root.title("Tic Tac Toe")
-root.geometry("500x400")
+root.geometry("500x500")
+
+for i in range(4):
+    root.grid_rowconfigure(i, weight=1, uniform="row")
+for j in range(3):
+    root.grid_columnconfigure(j, weight=1, uniform="col")
+
+header = tk.Label(root, text="Tic Tac Toe", font=("Arial", 30))
+header.grid(row=0,column=0,columnspan=3)
+SHOWTURN = tk.Label(root, text="Player X's turn", font=("Arial",20))
+SHOWTURN.grid(row=4,column=0, columnspan=3)
 
 BUTTONS = []
-for i in range(3):
-    root.grid_rowconfigure(i, weight=1, uniform="row")
-    root.grid_columnconfigure(i, weight=1, uniform="col")
-
 for i in range(3):
     row = []
     for j in range(3):
         btn = tk.Button(root, command=lambda r=i, c=j: handle_click(r, c), font = ("Arial",40))
-        btn.grid(row=i,column=j,sticky="nsew")
+        btn.grid(row=i+1,column=j,sticky="nsew")
         row.append(btn)
     BUTTONS.append(row)
 
