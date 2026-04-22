@@ -59,9 +59,7 @@ def check_all_win_cases():
     return False, None
 
 def game_is_draw():
-    if len(give_grid().replace("e","")) == 9 and not game_is_won():
-        return True
-    return False
+    len(give_grid().replace("e","")) == 9 and not game_is_won()
 
 def game_is_won():
     return check_all_win_cases()[0]
@@ -73,15 +71,12 @@ def winner():
     return check_all_win_cases()[1]
 
 def is_win(three):
-    if three == "XXX" or three == "OOO":
-        return True
-    return False
+    return three in ["XXX","OOO"]
 
 def disable_all_buttons():
     for i in range(3):
         for j in range(3):
             BUTTONS[i][j].config(state = "disabled")
-
 
 #Grid 
 root = tk.Tk()
